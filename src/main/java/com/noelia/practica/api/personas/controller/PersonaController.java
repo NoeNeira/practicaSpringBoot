@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/personas")
+@RequestMapping("/personas")
 public class PersonaController {
     private ArrayList<Persona> personas;
 
@@ -22,9 +22,7 @@ public class PersonaController {
         personas.add(p1);
         personas.add(p2);
         personas.add(p3);
-
     }
-
 
     @GetMapping
     public List<Persona> getPersonas(){
@@ -32,7 +30,7 @@ public class PersonaController {
     }
 
     @GetMapping("/{id}")
-    public Persona getPesona(@PathVariable int id){
+    public Persona getPersona(@PathVariable int id){
         for (int i = 0; i < personas.size(); i++) {
             Persona persona = personas.get(i);
             if (id == persona.getId()){
@@ -42,9 +40,57 @@ public class PersonaController {
         return null;
     }
 
+
     @PostMapping
     public Persona addPersona(@RequestBody Persona persona){
+        int newId = this.getNewId(this.personas);
+        persona.setId(newId);
         personas.add(persona);
+        return persona; // devuelve la persona que agrega antes
+    }
+
+    @PutMapping("/{id}")
+    public Persona updatePersona(@PathVariable int id, @RequestBody Persona persona){
+        Persona p2 = null;
+
+        for (int i = 0; i < personas.size(); i++) {
+            if (personas.get(i).getId() == id){
+
+                p2 = personas.get(i);
+
+                p2.setNombre(persona.getNombre());
+                p2.setApellido(persona.getApellido());
+                p2.setEdad(persona.getEdad());
+                p2.setGenero(persona.getGenero());
+                p2.setNacionalidad(persona.getNacionalidad());
+
+                personas.set(i, p2);
+            }
+        }
+        return p2;
+    }
+
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+    public Persona deletePersona(@PathVariable int id){
+        Persona persona = null;
+
+        for (int i = 0; i < personas.size(); i++) {
+            if(personas.get(i).getId() == id){
+                persona = personas.remove(i);
+            }
+        }
         return persona;
+    }
+
+
+    private int getNewId(ArrayList<Persona> personas){
+        int idMax = personas.get(0).getId();
+
+        for (int i = 0; i < personas.size(); i++) {
+            if(personas.get(i).getId() > idMax){
+                idMax = personas.get(i).getId();
+            }
+        }
+        return idMax + 1;
     }
 }

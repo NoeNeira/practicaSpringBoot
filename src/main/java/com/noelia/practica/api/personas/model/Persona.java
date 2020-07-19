@@ -12,6 +12,4 @@ public class Persona {
     private int edad;
     private String nacionalidad;
     private GeneroEnum genero;
-
-
 }
