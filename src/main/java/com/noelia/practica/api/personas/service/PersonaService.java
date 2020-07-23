@@ -18,24 +18,34 @@ public class PersonaService { //El service actua como intermediario entre el con
 //        this.personaRepository = personaRepository;
 //    }
 
-    public List<Persona> getPersonas(){
+    public List<Persona> getPersonas() {
         return personaRepository.findAll();
     }
 
-    public Persona getPersonaById(Long id){ // Método llamado desde el controller, para pedir datos del repository
+    public Persona getPersonaById(Long id) { // Método llamado desde el controller, para pedir datos del repository
         return personaRepository.findById(id).get();
     }
 
-    public Persona addNewPersona(Persona persona){
+    public Persona addNewPersona(Persona persona) {
         return personaRepository.save(persona);
     }
 
-    public Persona updatePersona(Long id, Persona persona){
+    public Persona updatePersona(Long id, Persona persona) {
         Optional<Persona> personaEnDB = this.personaRepository.findById(id);
 
-        if(personaEnDB.isPresent()){
+        if (personaEnDB.isPresent()) {
             persona.setId(id); // relaciona el id que paso por parámetro con el id del RequestBody, que lo trae de la URL del Controller
             return personaRepository.save(persona);
+        }
+        return null;
+    }
+
+    public Persona deletePersonaById(Long id) {
+        Optional<Persona> personaEnDB = this.personaRepository.findById(id);
+
+        if (personaEnDB.isPresent()) {
+            personaRepository.deleteById(id);
+            return personaEnDB.get();
         }
         return null;
     }

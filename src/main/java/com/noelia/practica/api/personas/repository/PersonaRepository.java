@@ -16,5 +16,5 @@ public interface PersonaRepository extends JpaRepository<Persona, Long> {
 
     // Método Save de JpaRepository está implicíto en CRUDRepository.
 
-
+    // Método Delete de JpaRepository está implicíto en CRUDRepository.
 }

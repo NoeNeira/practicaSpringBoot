@@ -39,16 +39,8 @@ public class PersonaController {
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-    public Persona deletePersona(@PathVariable int id){
-/*        Persona persona = null;
-
-        for (int i = 0; i < personas.size(); i++) {
-            if(personas.get(i).getId() == id){
-                persona = personas.remove(i);
-            }
-        }
-//        return persona;*/
-        return null;
+    public Persona deletePersonaById(@PathVariable Long id){
+        return this.personaService.deletePersonaById(id);
     }
 
 
